@@ -1,0 +1,125 @@
+<div class="login-container mt-20 md:mt-32">
+  <!-- Logo -->
+  <img src="assets/logo.png" alt="Logo Star Wars" class="logo" />
+
+  <!-- Formulário reativo -->
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <!-- Campo de e-mail -->
+    <div>
+      <label for="email">Email</label>
+      <input id="email" type="email" formControlName="email" />
+      <div
+        class="error"
+        *ngIf="
+          loginForm.get('email')?.invalid && loginForm.get('email')?.touched
+        "
+      >
+        Email inválido.
+      </div>
+    </div>
+
+    <!-- Campo de senha -->
+    <div>
+      <label for="password">Senha</label>
+      <input id="password" type="password" formControlName="password" />
+      <div
+        class="error"
+        *ngIf="
+          loginForm.get('password')?.invalid &&
+          loginForm.get('password')?.touched
+        "
+      >
+        Senha obrigatória (mínimo 8 caracteres).
+      </div>
+    </div>
+
+    <!-- Campo de confirmar senha (aparece no modo de cadastro ou atualização de senha) -->
+    <div *ngIf="isRegisterMode || isUpdatePasswordMode">
+      <label for="confirmPassword">Confirmar Senha</label>
+      <input
+        id="confirmPassword"
+        type="password"
+        formControlName="confirmPassword"
+      />
+      <div
+        class="error"
+        *ngIf="
+          loginForm.get('confirmPassword')?.invalid &&
+          loginForm.get('confirmPassword')?.touched
+        "
+      >
+        Confirmação de senha obrigatória.
+      </div>
+    </div>
+
+    <!-- Grupo de botões -->
+    <div class="button-group">
+      <!-- Botão "Entrar" -->
+      <button
+        type="submit"
+        class="enter-button"
+        *ngIf="!isRegisterMode && !isUpdatePasswordMode"
+      >
+        Entrar
+      </button>
+
+      <!-- Botões "Cadastrar" e "Esqueci minha senha" -->
+      <div class="flex justify-between">
+        <button
+          type="button"
+          class="side-buttons"
+          *ngIf="!isRegisterMode && !isUpdatePasswordMode"
+          (click)="toggleRegisterMode()"
+        >
+          Cadastrar
+        </button>
+        <button
+          type="button"
+          class="side-buttons"
+          *ngIf="!isRegisterMode && !isUpdatePasswordMode"
+          (click)="toggleUpdatePasswordMode()"
+        >
+          Esqueci minha senha
+        </button>
+      </div>
+
+      <!-- Botões no modo de cadastro -->
+      <button
+        type="button"
+        *ngIf="isRegisterMode"
+        (click)="toggleRegisterMode()"
+      >
+        Voltar
+      </button>
+      <button type="submit" *ngIf="isRegisterMode" [disabled]="!isFormValid()">
+        Cadastrar
+      </button>
+
+      <!-- Botões no modo de atualização de senha -->
+      <button
+        type="button"
+        *ngIf="isUpdatePasswordMode"
+        (click)="toggleUpdatePasswordMode()"
+      >
+        Voltar
+      </button>
+      <button
+        type="submit"
+        *ngIf="isUpdatePasswordMode"
+        [disabled]="!isFormValid()"
+      >
+        Atualizar Senha
+      </button>
+    </div>
+  </form>
+
+  <!-- Mensagem de erro global -->
+  <div class="error" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Mensagem de sucesso -->
+  <div class="success" *ngIf="successMessage">
+    {{ successMessage }}
+  </div>
+</div>

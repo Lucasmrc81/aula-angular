@@ -1,66 +1,16 @@
 /* =========================================
-   Tailwind base
+   Animação glow
    ========================================= */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/* =========================================
-   Reset e fundo global
-   ========================================= */
-html,
-body {
-  @apply h-full m-0 p-0 bg-black;
-  overflow: auto; /* permite rolagem apenas quando necessário */
-  position: relative;
-}
-
-/* Estrelas animadas como overlay */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: url("https://www.transparenttextures.com/patterns/stardust.png")
-    repeat;
-  background-size: 900px 900px;
-  animation: moveStars 100s linear infinite;
-  opacity: 1.8;
-  z-index: 0;
-}
-
-@keyframes moveStars {
-  from {
-    transform: translate(0, 0);
+@keyframes saberGlow {
+  0% {
+    box-shadow: 0 0 5px #ffe81f;
   }
-  to {
-    transform: translate(-100px, -100px);
+  50% {
+    box-shadow: 0 0 20px #ffe81f, 0 0 30px #ffe81f;
   }
-}
-
-/* =========================================
-   App root e layout principal
-   ========================================= */
-app-root {
-  @apply flex flex-col min-h-screen relative;
-  z-index: 1;
-  background: transparent !important;
-}
-
-app-header,
-app-footer {
-  @apply relative;
-  z-index: 1;
-  background: transparent !important;
-}
-
-/* Wrapper do layout */
-.layout-wrapper {
-  @apply flex flex-col min-h-screen;
-}
-
-/* Conteúdo principal ocupa o espaço entre header e footer */
-.content-container {
-  @apply flex-1 p-5;
+  100% {
+    box-shadow: 0 0 5px #ffe81f;
+  }
 }
 
 /* =========================================
@@ -77,7 +27,7 @@ app-footer {
 }
 
 /* =========================================
-   Menu Star Wars
+   Menu Star Wars (desktop)
    ========================================= */
 .starwars-nav a {
   @apply relative z-[9999] px-5 py-2 font-bold text-yellow-400 bg-black rounded-lg uppercase cursor-pointer;
@@ -86,6 +36,31 @@ app-footer {
 }
 
 .starwars-nav a:hover {
+  color: transparent;
+  background: linear-gradient(45deg, #ff1f1f, #1f7fff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  box-shadow: 0 0 15px #ff1f1f, 0 0 30px #084ba2;
+  transform: scale(1.05);
+}
+
+/* =========================================
+   Menu mobile
+   ========================================= */
+nav.mobile-menu {
+  @apply flex flex-col space-y-2 mt-2 md:hidden w-full bg-[rgba(0,0,0,0.6)] rounded-lg p-2;
+  box-shadow: 0 0 10px #ffe81f;
+  z-index: 9999;
+}
+
+nav.mobile-menu a {
+  @apply px-4 py-2 text-yellow-400 font-bold rounded-lg uppercase cursor-pointer;
+  background: rgba(17, 17, 17, 0.8);
+  box-shadow: 0 0 5px #ffe81f;
+  transition: all 0.3s ease;
+}
+
+nav.mobile-menu a:hover {
   color: transparent;
   background: linear-gradient(45deg, #ff1f1f, #1f7fff);
   -webkit-background-clip: text;
@@ -108,7 +83,4 @@ app-footer {
   @apply text-red-600;
   box-shadow: 0 0 15px #ff1f1f, 0 0 30px #ff1f1f;
   transform: scale(1.05);
-}
-* {
-  font-family: "Orbitron";
 }

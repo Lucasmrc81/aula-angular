@@ -1,0 +1,83 @@
+.login-container {
+  max-width: 400px;
+  margin: 120px auto 40px auto;
+  padding: 20px;
+  background: rgba(17, 17, 17, 0.9);
+  color: #ffe81f;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  position: relative;
+}
+
+.logo {
+  max-width: 250px;
+  margin: 0 auto 10px auto; /* Reduzi o espaçamento inferior */
+  display: block;
+}
+
+input {
+  color: black;
+  background-color: white;
+  width: 100%;
+  padding: 12px; /* Aumenta o espaçamento interno */
+  margin-top: 10px;
+  margin-bottom: 15px;
+  border: none;
+  border-radius: 6px; /* Bordas mais arredondadas */
+  font-size: 16px; /* Aumenta o tamanho da fonte */
+}
+
+.button-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: space-between; /* Posiciona os botões nos cantos */
+  margin-top: 20px;
+}
+
+button {
+  padding: 15px 30px; /* Aumenta o espaçamento interno */
+  border: 1px solid #ffe81f; /* Adiciona uma borda amarela fina */
+  border-radius: 20px; /* Bordas mais arredondadas */
+  font-size: 18px; /* Aumenta o tamanho da fonte */
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease; /* Animação suave */
+  background: black; /* Fundo preto padrão */
+  color: #ffe81f; /* Texto amarelo padrão */
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4); /* Adiciona sombra mais forte */
+}
+
+/* Botão "Entrar" ocupa toda a largura */
+button.enter-button {
+  width: 100%; /* Ocupa toda a largura do contêiner */
+}
+
+/* Botões "Cadastrar" e "Esqueci minha senha" lado a lado */
+button.side-buttons {
+  width: 48%; /* Cada botão ocupa metade da largura */
+}
+
+/* Hover em todos os botões -> amarelo com preto */
+button:hover:not(:disabled) {
+  background: #ffe81f; /* Fundo amarelo */
+  color: black; /* Texto preto */
+  border-color: black; /* Borda preta ao passar o mouse */
+  transform: scale(1.05); /* Aumenta levemente */
+}
+
+/* Botão desabilitado */
+button:disabled {
+  background: black;
+  color: #ffe81f;
+  border-color: #ffe81f; /* Mantém a borda amarela */
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Mensagens de erro */
+.error {
+  font-size: 14px; /* Aumenta o tamanho da fonte */
+  color: red;
+}

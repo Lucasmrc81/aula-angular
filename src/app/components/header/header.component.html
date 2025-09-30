@@ -1,0 +1,74 @@
+<header
+  class="sticky top-0 z-50 bg-transparent border-b border-rebel-blue/20 shadow-starwars"
+>
+  <div class="flex flex-row items-center justify-between px-6 py-3 w-full">
+    <!-- Logo -->
+    <div class="flex justify-start w-auto">
+      <img src="assets/logo.png" class="h-32 w-56 object-contain" />
+    </div>
+
+    <!-- Botão hambúrguer (aparece só no mobile) -->
+    <button
+      class="md:hidden text-yellow-400 ml-2 text-4xl p-2"
+      (click)="menuOpen = !menuOpen"
+    >
+      ☰
+    </button>
+
+    <!-- Menu desktop -->
+    <nav
+      class="hidden md:flex items-center space-x-4 starwars-nav flex-1 justify-start ml-8"
+    >
+      <a routerLink="/home">Home</a>
+      <a routerLink="/filmes">Filmes</a>
+      <a routerLink="/personagens">Personagens</a>
+      <a routerLink="/comunidade">Comunidade</a>
+    </nav>
+
+    <!-- Search + botão desktop -->
+    <div class="hidden md:flex items-center space-x-3">
+      <div class="relative">
+        <input
+          type="text"
+          placeholder="Search the galaxy..."
+          class="search-input"
+        />
+        <i
+          data-feather="search"
+          class="absolute left-3 top-2.5 text-lightsaber-blue"
+        ></i>
+      </div>
+      <button (click)="logout()" class="starwars-btn">Sair</button>
+    </div>
+  </div>
+
+  <!-- Menu mobile -->
+  <nav
+    *ngIf="menuOpen"
+    class="mobile-menu absolute top-full right-0 w-56 bg-[rgba(0,0,0,0.6)] rounded-lg p-4 shadow-lg z-50"
+  >
+    <a routerLink="/home" (click)="menuOpen = false" class="text-lg font-bold"
+      >Home</a
+    >
+    <a routerLink="/filmes" (click)="menuOpen = false" class="text-lg font-bold"
+      >Filmes</a
+    >
+    <a
+      routerLink="/personagens"
+      (click)="menuOpen = false"
+      class="text-lg font-bold"
+      >Personagens</a
+    >
+    <a
+      routerLink="/comunidade"
+      (click)="menuOpen = false"
+      class="text-lg font-bold"
+      >Comunidade</a
+    >
+
+    <div class="mobile-actions mt-4 flex flex-col gap-2">
+      <input type="text" placeholder="Search..." class="search-input" />
+      <button (click)="logout()" class="starwars-btn w-full">Sair</button>
+    </div>
+  </nav>
+</header>

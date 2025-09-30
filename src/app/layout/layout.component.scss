@@ -1,0 +1,10 @@
+/* layout.component.scss */
+.layout-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+.content-container {
+  flex: 1;
+  min-height: calc(100vh - 80px - 60px); /* 100vh - header - footer */
+}

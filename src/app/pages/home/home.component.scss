@@ -1,0 +1,62 @@
+.arrow-btn {
+  font-size: 2rem;
+  cursor: pointer;
+  background: transparent;
+  border: 2px solid transparent;
+  padding: 0.5rem;
+  transition: all 0.3s ease;
+  color: #ffe81f;
+}
+
+.arrow-btn:hover {
+  background: linear-gradient(45deg, #ff1f1f, #1f7fff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  border: 2px solid transparent;
+  box-shadow: 0 0 15px #ff1f1f, 0 0 30px #084ba2;
+  transform: scale(1.2) translateX(6px);
+}
+
+.arrow-btn.open {
+  transform: rotate(90deg);
+}
+
+.home-title {
+  font-size: 2.5rem;
+  color: #ffcc00;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.home-container {
+  padding-bottom: 180px;
+}
+
+.img-portrait,
+.img-landscape {
+  width: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+}
+
+.img-portrait {
+  height: 250px;
+  object-fit: contain;
+}
+
+.img-landscape {
+  height: 150px;
+}
+
+.img-portrait:hover,
+.img-landscape:hover {
+  transform: scale(1.2);
+  z-index: 10;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.8);
+}
