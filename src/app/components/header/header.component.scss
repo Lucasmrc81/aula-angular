@@ -12,12 +12,16 @@
     box-shadow: 0 0 5px #ffe81f;
   }
 }
+header {
+  background: rgba(17, 17, 17, 0.95) !important;
+}
 
 /* =========================================
    Input de pesquisa
    ========================================= */
 .search-input {
-  @apply px-4 py-2 rounded-full text-sm text-white bg-[rgba(17,17,17,0.9)] border border-yellow-400 shadow-md;
+  @apply px-4 py-2 rounded-full text-sm text-white border border-yellow-400 shadow-md;
+  background: rgba(17, 17, 17, 0.95); /* mais opaco */
   transition: all 0.3s ease;
 }
 
@@ -48,14 +52,15 @@
    Menu mobile
    ========================================= */
 nav.mobile-menu {
-  @apply flex flex-col space-y-2 mt-2 md:hidden w-full bg-[rgba(0,0,0,0.6)] rounded-lg p-2;
+  @apply flex flex-col space-y-2 mt-2 md:hidden w-full rounded-lg p-2;
+  background: rgba(0, 0, 0, 0.95); /* mais opaco */
   box-shadow: 0 0 10px #ffe81f;
   z-index: 9999;
 }
 
 nav.mobile-menu a {
   @apply px-4 py-2 text-yellow-400 font-bold rounded-lg uppercase cursor-pointer;
-  background: rgba(17, 17, 17, 0.8);
+  background: rgba(17, 17, 17, 0.95); /* mais opaco */
   box-shadow: 0 0 5px #ffe81f;
   transition: all 0.3s ease;
 }

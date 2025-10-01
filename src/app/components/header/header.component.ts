@@ -10,13 +10,13 @@ import { CommonModule } from '@angular/common';
   imports: [RouterModule, CommonModule],
 })
 export class HeaderComponent {
-  public menuOpen = false; // Declarar a propriedade
+  public menuOpen = false;
 
   constructor(private router: Router) {}
 
   logout() {
     localStorage.removeItem('token');
     this.router.navigate(['/login']);
-    this.menuOpen = false; // Usar this.menuOpen
+    this.menuOpen = false;
   }
 }

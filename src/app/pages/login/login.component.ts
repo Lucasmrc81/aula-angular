@@ -17,36 +17,40 @@ import { RouterModule, Router } from '@angular/router';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
+  [x: string]: any;
+
   loginForm: FormGroup;
   errorMessage = '';
-  successMessage = ''; // Mensagem de sucesso
-  isRegisterMode = false; // Define se está no modo de cadastro
-  isUpdatePasswordMode = false; // Define se está no modo de atualização de senha
+  successMessage = '';
+  isRegisterMode = false;
+  isUpdatePasswordMode = false;
+
+  isLoading = true;
 
   constructor(private fb: FormBuilder, private router: Router) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
-      confirmPassword: [''], // Campo opcional, só será validado no modo de cadastro ou atualização
+      confirmPassword: [''],
     });
   }
 
   toggleRegisterMode() {
     this.isRegisterMode = !this.isRegisterMode;
-    this.isUpdatePasswordMode = false; // Sai do modo de atualização de senha
+    this.isUpdatePasswordMode = false;
     this.clearMessages();
   }
 
   toggleUpdatePasswordMode() {
     this.isUpdatePasswordMode = !this.isUpdatePasswordMode;
-    this.isRegisterMode = false; // Sai do modo de cadastro
+    this.isRegisterMode = false;
     this.clearMessages();
   }
 
   clearMessages() {
-    this.errorMessage = ''; // Limpa mensagens de erro
-    this.successMessage = ''; // Limpa mensagens de sucesso
-    this.loginForm.get('confirmPassword')?.setValue(''); // Limpa o campo
+    this.errorMessage = '';
+    this.successMessage = '';
+    this.loginForm.get('confirmPassword')?.setValue('');
   }
 
   onSubmit() {
@@ -61,9 +65,8 @@ export class LoginComponent {
         this.successMessage = 'Cadastro concluído com sucesso!';
         console.log('Cadastro realizado com sucesso:', { email, password });
 
-        // Exibe a mensagem de sucesso e retorna ao modo de login após 2 segundos
         setTimeout(() => {
-          this.toggleRegisterMode(); // Volta ao modo de login
+          this.toggleRegisterMode();
         }, 2000);
       } else if (this.isUpdatePasswordMode) {
         if (password !== confirmPassword) {
@@ -73,16 +76,14 @@ export class LoginComponent {
         this.successMessage = 'Senha atualizada com sucesso!';
         console.log('Senha atualizada com sucesso:', { email, password });
 
-        // Exibe a mensagem de sucesso e retorna ao modo de login após 2 segundos
         setTimeout(() => {
-          this.toggleUpdatePasswordMode(); // Volta ao modo de login
+          this.toggleUpdatePasswordMode();
         }, 2000);
       } else {
-        // Login de apresentação: redireciona diretamente para /home
         console.log('Login realizado com sucesso:', { email, password });
-        localStorage.setItem('token', 'fake-token'); // Apenas para simulação
-        console.log('Redirecionando para /home'); // Log para depuração
-        this.router.navigate(['/home']); // Redireciona para a tela "Home"
+        localStorage.setItem('token', 'fake-token');
+        console.log('Redirecionando para /home');
+        this.router.navigate(['/home']);
       }
     } else {
       this.errorMessage = 'Formulário inválido!';
@@ -90,7 +91,6 @@ export class LoginComponent {
   }
 
   isFormValid(): boolean {
-    // Verifica se o formulário é válido no modo de cadastro ou atualização de senha
     return (
       this.loginForm.valid && (this.isRegisterMode || this.isUpdatePasswordMode)
     );

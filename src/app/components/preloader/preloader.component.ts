@@ -60,54 +60,50 @@ export class PreloaderComponent implements AfterViewInit, OnDestroy {
     if (!ctx) return;
     this.ctx = ctx;
 
-    this.resizeCanvas(); // ajusta canvas à tela
-    window.addEventListener('resize', this.onResizeBound); // adiciona listener resize
+    this.resizeCanvas();
+    window.addEventListener('resize', this.onResizeBound);
 
-    this.maxDepth = Math.max(window.innerWidth, window.innerHeight) * 1.2; // ajusta profundidade
+    this.maxDepth = Math.max(window.innerWidth, window.innerHeight) * 1.2;
 
-    // Inicializa estrelas
     for (let i = 0; i < this.starCount; i++) this.stars.push(this.randomStar());
 
-    // Nave da esquerda
     const s1: Ship = {
       img: new Image(),
       baseSize: 280,
       size: 280,
       minSize: 20,
       visible: false,
-      xOffset: -window.innerWidth / 2, // inicia fora da tela à esquerda
-      yOffset: 0, // altura central
-      direction: 1, // direção para o centro
+      xOffset: -window.innerWidth / 2,
+      yOffset: 0,
+      direction: 1,
     };
     s1.img.src = 'assets/nave1.png';
     s1.img.onload = () => (s1.visible = true);
 
-    // Nave da direita
     const s2: Ship = {
       img: new Image(),
       baseSize: 280,
       size: 280,
       minSize: 20,
       visible: false,
-      xOffset: window.innerWidth / 2, // inicia fora da tela à direita
+      xOffset: window.innerWidth / 2,
       yOffset: 0,
-      direction: -1, // direção para o centro
+      direction: -1,
     };
     s2.img.src = 'assets/nave2.png';
     s2.img.onload = () => (s2.visible = true);
 
-    this.ships.push(s1, s2); // adiciona naves ao array
+    this.ships.push(s1, s2);
 
-    // Carrega logo
     this.logo.src = 'assets/logo.png';
     this.logo.onload = () => (this.logoVisible = true);
 
-    this.rafId = requestAnimationFrame(() => this.animate()); // inicia loop de animação
+    this.rafId = requestAnimationFrame(() => this.animate());
   }
 
   ngOnDestroy(): void {
     cancelAnimationFrame(this.rafId); // cancela animação
-    window.removeEventListener('resize', this.onResizeBound); // remove listener resize
+    window.removeEventListener('resize', this.onResizeBound);
   }
 
   private animate() {
@@ -116,18 +112,16 @@ export class PreloaderComponent implements AfterViewInit, OnDestroy {
     const cx = canvas.width / 2;
     const cy = canvas.height / 2;
 
-    // Fundo preto
     ctx.fillStyle = 'black';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Desenha estrelas
     ctx.fillStyle = 'white';
     for (let s of this.stars) {
-      s.z -= this.starSpeed; // move estrela
+      s.z -= this.starSpeed;
       if (s.z <= 1) Object.assign(s, this.randomStar(), { z: this.maxDepth }); // reinicia estrela
-      const sx = (s.x / s.z) * cx + cx; // projeta X
-      const sy = (s.y / s.z) * cy + cy; // projeta Y
-      const size = (1 - s.z / this.maxDepth) * this.starSizeMultiplier; // calcula tamanho
+      const sx = (s.x / s.z) * cx + cx;
+      const sy = (s.y / s.z) * cy + cy;
+      const size = (1 - s.z / this.maxDepth) * this.starSizeMultiplier;
       if (
         sx >= -50 &&
         sx <= canvas.width + 50 &&
@@ -135,56 +129,49 @@ export class PreloaderComponent implements AfterViewInit, OnDestroy {
         sy <= canvas.height + 50 &&
         size > 0
       ) {
-        ctx.fillRect(sx, sy, size, size); // desenha estrela
+        ctx.fillRect(sx, sy, size, size);
       }
     }
 
-    let shipsOnScreen = false; // flag se alguma nave ainda visível
+    let shipsOnScreen = false;
 
-    // Limites individuais para desaparecer antes do centro
-    const leftShipLimit = cx - 150; // nave da esquerda
-    const rightShipLimit = cx + 150; // nave da direita
+    const leftShipLimit = cx - 150;
+    const rightShipLimit = cx + 150;
 
-    // Loop das naves
     for (const ship of this.ships) {
-      if (!ship.visible) continue; // ignora invisível
+      if (!ship.visible) continue;
       shipsOnScreen = true;
 
-      // Movimento horizontal com limite individual
       if (ship.direction === 1) {
         // esquerda -> centro
         if (cx + ship.xOffset < leftShipLimit) {
-          ship.xOffset += 5; // move para o centro
+          ship.xOffset += 5;
         } else {
-          ship.visible = false; // some antes do limite
+          ship.visible = false;
         }
       } else {
-        // direita -> centro
         if (cx + ship.xOffset > rightShipLimit) {
-          ship.xOffset -= 5; // move para o centro
+          ship.xOffset -= 5;
         } else {
-          ship.visible = false; // some antes do limite
+          ship.visible = false;
         }
       }
 
-      ship.size *= 0.985; // diminui tamanho
+      ship.size *= 0.985;
 
-      // Calcula posição para desenhar
       const drawX = cx + ship.xOffset - ship.size / 2;
       const drawY = cy + ship.yOffset - ship.size / 2;
 
-      // Desenha a nave
       ctx.globalAlpha = Math.max(0.3, ship.size / ship.baseSize);
       ctx.drawImage(ship.img, drawX, drawY, ship.size, ship.size);
       ctx.globalAlpha = 1; // reseta alpha
     }
 
-    // Desenha logo após naves sumirem
     if (!shipsOnScreen && this.logoVisible) {
       if (this.logoScale < this.logoTargetScale)
-        this.logoScale += this.logoGrowRate; // aumenta escala
-      const logoSize = 180 + 100 * this.logoScale; // tamanho do logo
-      ctx.globalAlpha = Math.min(1, this.logoScale); // fade in
+        this.logoScale += this.logoGrowRate;
+      const logoSize = 180 + 100 * this.logoScale;
+      ctx.globalAlpha = Math.min(1, this.logoScale);
       ctx.drawImage(
         this.logo,
         cx - logoSize / 2,
@@ -192,14 +179,13 @@ export class PreloaderComponent implements AfterViewInit, OnDestroy {
         logoSize,
         logoSize
       ); // desenha logo
-      ctx.globalAlpha = 1; // reseta alpha
+      ctx.globalAlpha = 1;
     }
 
-    this.starSpeed *= this.starSpeedMultiplier; // acelera estrelas
-    this.rafId = requestAnimationFrame(() => this.animate()); // loop animação
+    this.starSpeed *= this.starSpeedMultiplier;
+    this.rafId = requestAnimationFrame(() => this.animate());
   }
 
-  // Gera estrela aleatória
   private randomStar(): Star {
     return {
       x: (Math.random() - 0.5) * this.canvas.width,
@@ -208,7 +194,6 @@ export class PreloaderComponent implements AfterViewInit, OnDestroy {
     };
   }
 
-  // Ajusta canvas ao tamanho da tela
   private resizeCanvas() {
     this.canvas.width = window.innerWidth;
     this.canvas.height = window.innerHeight;

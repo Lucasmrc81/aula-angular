@@ -1,10 +1,7 @@
 <div class="login-container mt-20 md:mt-32">
-  <!-- Logo -->
   <img src="assets/logo.png" alt="Logo Star Wars" class="logo" />
 
-  <!-- Formulário reativo -->
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-    <!-- Campo de e-mail -->
     <div>
       <label for="email">Email</label>
       <input id="email" type="email" formControlName="email" />
@@ -18,7 +15,6 @@
       </div>
     </div>
 
-    <!-- Campo de senha -->
     <div>
       <label for="password">Senha</label>
       <input id="password" type="password" formControlName="password" />
@@ -33,7 +29,6 @@
       </div>
     </div>
 
-    <!-- Campo de confirmar senha (aparece no modo de cadastro ou atualização de senha) -->
     <div *ngIf="isRegisterMode || isUpdatePasswordMode">
       <label for="confirmPassword">Confirmar Senha</label>
       <input
@@ -52,9 +47,7 @@
       </div>
     </div>
 
-    <!-- Grupo de botões -->
     <div class="button-group">
-      <!-- Botão "Entrar" -->
       <button
         type="submit"
         class="enter-button"
@@ -63,7 +56,6 @@
         Entrar
       </button>
 
-      <!-- Botões "Cadastrar" e "Esqueci minha senha" -->
       <div class="flex justify-between">
         <button
           type="button"
@@ -83,7 +75,6 @@
         </button>
       </div>
 
-      <!-- Botões no modo de cadastro -->
       <button
         type="button"
         *ngIf="isRegisterMode"
@@ -95,7 +86,6 @@
         Cadastrar
       </button>
 
-      <!-- Botões no modo de atualização de senha -->
       <button
         type="button"
         *ngIf="isUpdatePasswordMode"
@@ -113,12 +103,10 @@
     </div>
   </form>
 
-  <!-- Mensagem de erro global -->
   <div class="error" *ngIf="errorMessage">
     {{ errorMessage }}
   </div>
 
-  <!-- Mensagem de sucesso -->
   <div class="success" *ngIf="successMessage">
     {{ successMessage }}
   </div>

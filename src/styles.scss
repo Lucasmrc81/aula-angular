@@ -1,21 +1,14 @@
-/* =========================================
-   Tailwind base
-   ========================================= */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* =========================================
-   Reset e fundo global
-   ========================================= */
 html,
 body {
   @apply h-full m-0 p-0 bg-black;
-  overflow: auto; /* permite rolagem apenas quando necessário */
+  overflow: auto;
   position: relative;
 }
 
-/* Estrelas animadas como overlay */
 body::before {
   content: "";
   position: fixed;
@@ -37,9 +30,6 @@ body::before {
   }
 }
 
-/* =========================================
-   App root e layout principal
-   ========================================= */
 app-root {
   @apply flex flex-col min-h-screen relative;
   z-index: 1;
@@ -53,19 +43,14 @@ app-footer {
   background: transparent !important;
 }
 
-/* Wrapper do layout */
 .layout-wrapper {
   @apply flex flex-col min-h-screen;
 }
 
-/* Conteúdo principal ocupa o espaço entre header e footer */
 .content-container {
   @apply flex-1 p-5;
 }
 
-/* =========================================
-   Input de pesquisa
-   ========================================= */
 .search-input {
   @apply px-4 py-2 rounded-full text-sm text-white bg-[rgba(17,17,17,0.9)] border border-yellow-400 shadow-md;
   transition: all 0.3s ease;
@@ -76,9 +61,6 @@ app-footer {
   box-shadow: 0 0 15px #ffe81f;
 }
 
-/* =========================================
-   Menu Star Wars
-   ========================================= */
 .starwars-nav a {
   @apply relative z-[9999] px-5 py-2 font-bold text-yellow-400 bg-black rounded-lg uppercase cursor-pointer;
   box-shadow: 0 0 10px #ffe81f;
@@ -94,9 +76,6 @@ app-footer {
   transform: scale(1.05);
 }
 
-/* =========================================
-   Botão estilo Star Wars
-   ========================================= */
 .starwars-btn {
   @apply bg-black text-yellow-400 font-bold px-5 py-2 rounded-full cursor-pointer relative inline-block;
   box-shadow: 0 0 10px #ffe81f, 0 0 20px #ffe81f;
@@ -109,6 +88,7 @@ app-footer {
   box-shadow: 0 0 15px #ff1f1f, 0 0 30px #ff1f1f;
   transform: scale(1.05);
 }
+
 * {
   font-family: "Orbitron";
 }

@@ -1,1 +1,99 @@
-<p>personagens works!</p>
+<app-loading-spinner *ngIf="loading"></app-loading-spinner>
+
+<div *ngIf="!loading">
+  <div *ngIf="erro" class="error-text">{{ erro }}</div>
+
+  <div class="characters-container">
+    <div class="character-grid">
+      <div
+        *ngFor="let personagem of personagens"
+        class="character-card"
+        (click)="selectCharacter(personagem)"
+      >
+        <img
+          [src]="personagem.image"
+          [alt]="personagem.name"
+          class="character-image"
+        />
+        <h2 class="character-name hover-gradient">
+          {{ personagem.name || personagem.nome }}
+        </h2>
+
+        <div class="character-info">
+          <p class="character-info-row">
+            <span class="field-name">Altura</span>
+            <span class="field-value">{{ personagem.height }} m</span>
+          </p>
+          <p class="character-info-row">
+            <span class="field-name">Peso</span>
+            <span class="field-value">{{ personagem.mass }} kg</span>
+          </p>
+          <p class="character-info-row">
+            <span class="field-name">Status</span>
+            <span class="field-value">
+              {{ personagem.alive ? "Alive" : "Deceased" }}
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="side-panel-backdrop"
+  [class.open]="selectedCharacter"
+  (click)="closePanel()"
+></div>
+
+<div class="side-panel" [class.open]="selectedCharacter">
+  <button class="close-btn" (click)="closePanel()">X</button>
+  <img
+    [src]="selectedCharacter?.image"
+    [alt]="selectedCharacter?.name"
+    class="panel-cover"
+  />
+  <h2 class="panel-title">{{ selectedCharacter?.name }}</h2>
+  <div class="panel-info">
+    <p class="character-info-row">
+      <span class="field-name">Altura</span>
+      <span class="field-value">{{ selectedCharacter?.height }} m</span>
+    </p>
+    <p class="character-info-row">
+      <span class="field-name">Peso</span>
+      <span class="field-value">{{ selectedCharacter?.mass }} kg</span>
+    </p>
+    <p class="character-info-row">
+      <span class="field-name">Gênero</span>
+      <span class="field-value">{{ selectedCharacter?.gender }}</span>
+    </p>
+    <p class="character-info-row">
+      <span class="field-name">Planeta</span>
+      <span class="field-value">{{ selectedCharacter?.homeworld }}</span>
+    </p>
+    <p class="character-info-row">
+      <span class="field-name">Status</span>
+      <span class="field-value">
+        {{ selectedCharacter?.alive ? "Alive" : "Deceased" }}
+      </span>
+    </p>
+    <p class="character-info-row">
+      <span class="field-name">Afiliações</span>
+      <span class="field-value">{{
+        selectedCharacter?.affiliations.join(", ") || "N/A"
+      }}</span>
+    </p>
+    <p class="character-info-row">
+      <span class="field-name">Mestres</span>
+      <span class="field-value">{{
+        selectedCharacter?.masters.join(", ") || "N/A"
+      }}</span>
+    </p>
+    <p class="character-info-row">
+      <span class="field-name">Aprendizes</span>
+      <span class="field-value">{{
+        selectedCharacter?.apprentices.join(", ") || "N/A"
+      }}</span>
+    </p>
+  </div>
+</div>

@@ -1,1 +1,39 @@
-<p>filmes works!</p>
+<div class="films-container">
+  <app-loading-spinner *ngIf="loading"></app-loading-spinner>
+
+  <div *ngIf="!loading" class="films-grid">
+    <div *ngFor="let film of films" class="film-card" (click)="openPanel(film)">
+      <img [src]="film.cover" [alt]="film.title" class="film-cover" />
+      <div class="film-info">
+        <h2 class="film-title">{{ film.title }}</h2>
+        <p class="film-director">Diretor: {{ film.director }}</p>
+        <p class="film-date">Lançamento: {{ film.release_date }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Backdrop escuro -->
+  <div
+    class="side-panel-backdrop"
+    [class.open]="selectedFilm"
+    (click)="closePanel()"
+  ></div>
+
+  <!-- Painel lateral -->
+  <div class="side-panel" [class.open]="selectedFilm">
+    <span class="close-btn" (click)="closePanel()">×</span>
+    <ng-container *ngIf="selectedFilm">
+      <h2 class="panel-title">{{ selectedFilm.title }}</h2>
+      <img [src]="selectedFilm.cover" class="panel-cover" />
+      <p class="panel-info">
+        <strong>Diretor:</strong> {{ selectedFilm.director }}
+      </p>
+      <p class="panel-info">
+        <strong>Lançamento:</strong> {{ selectedFilm.release_date }}
+      </p>
+      <p class="panel-info">
+        <strong>Sinopse:</strong> {{ selectedFilm.synopsis || "N/A" }}
+      </p>
+    </ng-container>
+  </div>
+</div>

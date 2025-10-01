@@ -1,6 +1,8 @@
+// app.component.ts
 import { Component, NgZone } from '@angular/core';
 import { Router, NavigationEnd, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http'; // <-- Import necessário
 import { PreloaderComponent } from './components/preloader/preloader.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
@@ -10,6 +12,7 @@ import { FooterComponent } from './components/footer/footer.component';
   standalone: true,
   imports: [
     CommonModule,
+    HttpClientModule,
     PreloaderComponent,
     HeaderComponent,
     FooterComponent,
@@ -20,10 +23,9 @@ import { FooterComponent } from './components/footer/footer.component';
 })
 export class AppComponent {
   preloaderVisible = false;
-  showLogo = false; // <-- declaração única e inicial
+  showLogo = false;
 
   constructor(private router: Router, private ngZone: NgZone) {
-    // define visibilidade inicial com base na rota atual
     this.updateLogoVisibility(this.router.url ?? '/');
 
     this.router.events.subscribe((event) => {
