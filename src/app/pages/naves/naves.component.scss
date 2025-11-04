@@ -1,0 +1,212 @@
+/* Styles copied and adapted from personagens for consistency across card pages */
+.characters-container {
+  background: transparent;
+  /* alinhar espaçamentos com outras páginas (mesma medida que personagens) */
+  padding: 2rem 1rem;
+  /* margem inferior menor para o botão "Carregar mais" ficar na mesma distância do footer */
+  padding-bottom: calc(2rem + env(safe-area-inset-bottom));
+  position: relative;
+
+  &::before {
+    /* hide local star overlays to use global starfield */
+    display: none;
+  }
+}
+
+.character-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.25rem 1.75rem;
+  justify-items: center;
+  align-items: start;
+  padding: 0 0.5rem;
+}
+
+.character-card {
+  width: 250px;
+  background: transparent;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
+  border: 2px solid transparent;
+
+  .character-image {
+    width: 100%;
+    height: 330px;
+    /* mostrar inteira dentro do tamanho do card */
+    object-fit: contain;
+    object-position: center;
+    background: #000;
+    display: block;
+  }
+
+  .character-name {
+    text-align: center;
+    margin: 0.65rem 0 0.4rem;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #ffe81f;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+    transition: all 0.3s ease;
+  }
+
+  .character-info {
+    padding: 0 0.8rem 1rem;
+
+    .character-info-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      margin: 2px 0;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+
+      .field-name {
+        color: yellow;
+      }
+
+      .field-value {
+        color: white;
+      }
+    }
+  }
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px #ff1f1f, 0 0 30px #084ba2;
+    border: 2px solid transparent;
+    border-image: linear-gradient(45deg, #ff1f1f, #1f7fff) 1;
+
+    .character-name {
+      color: transparent;
+      background: linear-gradient(45deg, #ff1f1f, #1f7fff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  }
+}
+
+/* Botão "Carregar mais" (mesmo estilo de personagens) */
+.show-more {
+  text-align: center;
+  margin-top: 40px;
+  margin-bottom: 59px;
+
+  button {
+    padding: 0.5rem 1rem;
+    color: #ffe81f;
+    font-weight: 700;
+    border-radius: 0.5rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    background: rgba(17, 17, 17, 0.95);
+    box-shadow: 0 0 5px #ffe81f;
+    transition: all 0.3s ease;
+    border: none;
+  }
+
+  button:hover {
+    color: transparent;
+    background: linear-gradient(45deg, #ff1f1f, #1f7fff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    box-shadow: 0 0 15px #ff1f1f, 0 0 30px #084ba2;
+    transform: scale(1.05);
+  }
+}
+
+/* Side-panel styles (same as filmes) */
+.side-panel-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 100000 !important;
+}
+.side-panel-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.side-panel {
+  position: fixed;
+  top: 0;
+  right: -400px;
+  width: 400px;
+  height: 100%;
+  background: #1a1a1a;
+  color: yellow;
+  padding: 1.5rem;
+  box-shadow: -5px 0 20px rgba(0, 0, 0, 0.7);
+  transition: right 0.3s ease;
+  /* garantir que o painel fique acima de tudo (header etc.) */
+  z-index: 100001 !important;
+  overflow-y: auto;
+
+  &.open {
+    right: 0;
+  }
+
+  .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: #ff1f1f;
+    cursor: pointer;
+    font-size: 1.5rem;
+    line-height: 1;
+  }
+
+  .panel-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(45deg, #ff1f1f, #1f7fff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .panel-info {
+    display: flex;
+    font-size: 1rem;
+    margin-bottom: 0.4rem;
+    gap: 10px;
+  }
+
+  .label-diretor,
+  .label-lancamento,
+  .label-sinopse {
+    color: yellow;
+  }
+
+  .value-diretor,
+  .value-lancamento,
+  .value-sinopse {
+    color: white;
+  }
+
+  .panel-cover {
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    max-height: 65vh;
+    object-fit: contain;
+    object-position: top center;
+    border-radius: 5px;
+    margin: 0 0 1rem 0;
+    background: #000;
+    display: block;
+  }
+}

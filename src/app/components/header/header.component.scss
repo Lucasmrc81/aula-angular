@@ -14,6 +14,11 @@
 }
 header {
   background: rgba(17, 17, 17, 0.95) !important;
+  /* Garantir que o header fique sempre acima do conteúdo principal */
+  position: sticky;
+  top: 0;
+  /* reduzido temporariamente para diagnóstico de stacking context */
+  z-index: 999 !important;
 }
 
 /* =========================================

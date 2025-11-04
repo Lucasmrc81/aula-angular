@@ -1,0 +1,113 @@
+<div class="planets-container">
+  <app-loading-spinner *ngIf="loading"></app-loading-spinner>
+
+  <div *ngIf="!loading">
+    <div class="planets-grid">
+      <div
+        *ngFor="let planet of planetsVisiveis"
+        class="planet-card"
+        (click)="openPanel(planet)"
+      >
+        <div class="planet-thumb">
+          <img
+            [src]="planet.image || defaultImage"
+            [alt]="planet.name"
+            (error)="onImageError($event)"
+            [attr.data-planet-url]="planet.url"
+            loading="lazy"
+            decoding="async"
+            width="320"
+            height="120"
+          />
+        </div>
+        <h3 class="planet-name">{{ planet.name }}</h3>
+        <p class="character-info-row">
+          <span class="field-name">Clima</span>
+          <span class="field-value">{{ planet.climate }}</span>
+        </p>
+        <p class="character-info-row">
+          <span class="field-name">Terreno</span>
+          <span class="field-value">{{ planet.terrain }}</span>
+        </p>
+        <p class="character-info-row">
+          <span class="field-name">População</span>
+          <span class="field-value">{{ planet.population }}</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- Botão "Carregar mais" (fora do grid para ficar centralizado) -->
+    <div class="show-more" *ngIf="temMaisPlanetas">
+      <button (click)="carregarMais()" [disabled]="loadingMais">
+        <span *ngIf="!loadingMais">Carregar mais</span>
+        <span *ngIf="loadingMais">Carregando...</span>
+      </button>
+    </div>
+
+    <p class="end-message" *ngIf="!temMaisPlanetas">
+      Todos os planetas foram exibidos.
+    </p>
+  </div>
+
+  <div
+    class="side-panel-backdrop"
+    [class.open]="selectedPlanet"
+    (click)="closePanel()"
+  ></div>
+
+  <!-- panel moved to body while open to avoid stacking-context issues -->
+  <div #sidePanel class="side-panel" [class.open]="selectedPlanet">
+    <span class="close-btn" (click)="closePanel()">×</span>
+    <ng-container *ngIf="selectedPlanet">
+      <h2 class="panel-title">{{ selectedPlanet.name }}</h2>
+      <img
+        [src]="selectedPlanet.image || defaultImage"
+        class="panel-cover"
+        [alt]="selectedPlanet.name"
+        (error)="onImageError($event)"
+      />
+
+      <p class="panel-info">
+        <span class="label-diretor">Clima:</span>
+        <span class="value-diretor">{{ selectedPlanet.climate }}</span>
+      </p>
+
+      <p class="panel-info">
+        <span class="label-lancamento">Terreno:</span>
+        <span class="value-lancamento">{{ selectedPlanet.terrain }}</span>
+      </p>
+
+      <p class="panel-info">
+        <span class="label-sinopse">População:</span>
+        <span class="value-sinopse">{{ selectedPlanet.population }}</span>
+      </p>
+
+      <p class="panel-info">
+        <span class="label-diretor">Diâmetro:</span>
+        <span class="value-diretor">{{ selectedPlanet.diameter }}</span>
+      </p>
+
+      <p class="panel-info">
+        <span class="label-lancamento">Gravidade:</span>
+        <span class="value-lancamento">{{ selectedPlanet.gravity }}</span>
+      </p>
+
+      <p class="panel-info">
+        <span class="label-sinopse">Período orbital:</span>
+        <span class="value-sinopse">{{ selectedPlanet.orbital_period }}</span>
+      </p>
+
+      <p class="panel-info">
+        <span class="label-diretor">Período de rotação:</span>
+        <span class="value-diretor">{{ selectedPlanet.rotation_period }}</span>
+      </p>
+
+      <p class="panel-info">
+        <span class="label-lancamento">Água superficial:</span>
+        <span class="value-lancamento"
+          >{{ selectedPlanet.surface_water }}%</span
+        >
+      </p>
+    </ng-container>
+  </div>
+</div>

@@ -1,0 +1,250 @@
+.planets-container {
+  padding: 20px;
+  position: relative;
+  /* permitir que o starfield global seja visível */
+  background: transparent;
+  color: #ffe81f;
+  font-family: "Orbitron", "Audiowide", system-ui, -apple-system, sans-serif;
+  /* garantir que o container fique atrás do header sticky */
+  z-index: 0;
+
+  /* ocultamos pseudo local de estrelas para que o starfield global (body::before) apareça */
+  &::before {
+    display: none;
+  }
+}
+
+.planets-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 2rem;
+  justify-items: center;
+}
+
+.planet-card {
+  /* transparente como em filmes */
+  background: transparent;
+  color: #ffe81f;
+  padding: 0.75rem;
+  border-radius: 10px;
+  cursor: pointer;
+  /* sem borda por padrão; mostramos borda gradient apenas no hover (como em filmes) */
+  border: none;
+  width: 250px;
+  overflow: hidden;
+  transition: transform 0.28s ease, box-shadow 0.28s ease, border 0.28s ease;
+  z-index: 1;
+
+  /* Remover outline/box-shadow de foco herdado */
+  /* manter comportamento padrão do filme (sem regras de foco especiais aqui) */
+}
+
+.planet-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px #ff1f1f, 0 0 30px #084ba2;
+  border: 2px solid transparent;
+  border-image: linear-gradient(45deg, #ff1f1f, #1f7fff) 1;
+
+  .planet-name {
+    color: transparent;
+    background: linear-gradient(45deg, #ff1f1f, #1f7fff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+.planet-thumb {
+  width: 100%;
+  height: 330px;
+  overflow: hidden;
+  border-radius: 6px;
+  margin-bottom: 0.75rem;
+  display: block;
+  background: #000;
+}
+.planet-thumb img {
+  width: 100%;
+  height: 100%;
+  /* mostrar a imagem inteira dentro do thumb sem cortar */
+  object-fit: contain;
+  object-position: center;
+  background: #000;
+  display: block;
+}
+
+.panel-image {
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
+.panel-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+}
+
+/* panel-cover (igual ao da página filmes) */
+.panel-cover {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 65vh;
+  object-fit: contain;
+  object-position: top center;
+  border-radius: 5px;
+  margin: 0 0 1rem 0;
+  background: #000;
+  display: block;
+}
+
+/* Side-panel standard styles (match filmes) */
+.side-panel {
+  .panel-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(45deg, #ff1f1f, #1f7fff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .panel-info {
+    display: flex;
+    font-size: 1rem;
+    margin-bottom: 0.4rem;
+    gap: 10px;
+  }
+
+  .label-diretor,
+  .label-lancamento,
+  .label-sinopse {
+    color: yellow;
+  }
+
+  .value-diretor,
+  .value-lancamento,
+  .value-sinopse {
+    color: white;
+  }
+}
+
+.planet-name {
+  margin: 0 0 8px 0;
+  color: #ffe81f;
+  font-weight: 800; /* mais grosso (negrito) conforme pedido */
+  font-size: 1.4rem; /* maior para destacar como nas outras telas */
+  letter-spacing: 1px;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+  transition: all 0.3s ease;
+}
+
+.planet-info {
+  margin: 4px 0;
+  font-size: 14px;
+}
+
+/* Reaproveitar o estilo de linhas de informação usado em Personagens */
+.character-info-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 2px 0;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+
+  .field-name {
+    color: yellow;
+  }
+
+  .field-value {
+    color: white;
+  }
+}
+
+.side-panel-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* manter a tela 'viva' — tornar backdrop visualmente transparente como em personagens */
+  background: rgba(0, 0, 0, 0);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  /* garantir que o backdrop fique acima do header */
+  z-index: 100000 !important;
+}
+.side-panel-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.side-panel {
+  position: fixed;
+  top: 0;
+  /* alinhar com a largura usada em personagens (400px) para consistência visual */
+  right: -400px;
+  height: 100%;
+  width: 400px;
+  background: rgba(17, 17, 17, 0.95);
+  color: #ffe81f;
+  padding: 1.5rem; /* usar mesmo padding que personagens */
+  box-shadow: -8px 0 24px rgba(0, 0, 0, 0.6);
+  transition: right 0.25s ease;
+  overflow-y: auto;
+  /* garantir que o painel lateral fique acima do header e do backdrop */
+  z-index: 100001 !important;
+}
+.side-panel.open {
+  right: 0;
+}
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: #ff1f1f; /* vermelho igual à página personagens */
+  cursor: pointer;
+  font-size: 1.5rem;
+}
+
+.panel-title {
+  margin-top: 40px;
+}
+
+/* Botão carregar mais (consistente com personagens) */
+.show-more {
+  text-align: center;
+  margin-top: 40px;
+  margin-bottom: 59px;
+
+  button {
+    padding: 0.5rem 1rem;
+    color: #ffe81f;
+    font-weight: 700;
+    border-radius: 0.5rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    background: rgba(17, 17, 17, 0.95);
+    box-shadow: 0 0 5px #ffe81f;
+    transition: all 0.3s ease;
+    border: none;
+  }
+
+  button:hover {
+    color: transparent;
+    background: linear-gradient(45deg, #ff1f1f, #1f7fff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    box-shadow: 0 0 15px #ff1f1f, 0 0 30px #084ba2;
+    transform: scale(1.05);
+  }
+}

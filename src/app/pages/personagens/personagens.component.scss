@@ -1,6 +1,18 @@
 .characters-container {
   width: 100%;
-  padding: 2rem;
+  padding: 2rem 1rem;
+  position: relative;
+  /* Garantir que o container de personagens esteja atrás do header sticky */
+  z-index: 0;
+  /* permitir que o starfield global seja visível */
+  background: transparent;
+  color: #ffe81f;
+  font-family: "Orbitron", "Audiowide", system-ui, -apple-system, sans-serif;
+
+  /* ocultamos pseudo local de estrelas para permitir o starfield global em body::before */
+  &::before {
+    display: none;
+  }
 
   .loading-text,
   .error-text {
@@ -13,57 +25,106 @@
   .character-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 1rem;
+    gap: 2rem;
     justify-items: center;
   }
 
   .character-card {
-    border: 2px solid yellow;
+    position: relative;
+    /* sem borda por padrão (como em filmes queremos borda somente no hover) */
+    border: none;
     border-radius: 10px;
+    overflow: hidden;
     width: 250px;
     text-align: center;
     cursor: pointer;
-    background-color: rgba(0, 0, 0, 0.7);
-    transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
+    /* transparente como em filmes */
+    background: transparent;
+    transition: transform 0.28s ease, box-shadow 0.28s ease, border 0.28s ease;
+    padding: 0.75rem;
+    /* manter abaixo do header; header tem z-index muito maior */
+    z-index: 1;
+
+    /* Remover qualquer outline/box-shadow de foco que possa vir de regras globais */
+    /* manter comportamento padrão do filme (sem regras de foco especiais aqui) */
 
     &:hover {
       transform: scale(1.05);
       box-shadow: 0 0 15px #ff1f1f, 0 0 30px #084ba2;
+      border: 2px solid transparent;
       border-image: linear-gradient(45deg, #ff1f1f, #1f7fff) 1;
 
       .character-name {
         color: transparent;
         background: linear-gradient(45deg, #ff1f1f, #1f7fff);
         -webkit-background-clip: text;
+        background-clip: text;
         -webkit-text-fill-color: transparent;
       }
     }
 
     .character-image {
       width: 100%;
-      height: 250px;
-      object-fit: cover;
+      height: 330px; /* container fixo */
+      /* mostrar a imagem inteira dentro do container sem cortar */
+      object-fit: contain;
+      object-position: center;
+      background: #000;
+      display: block;
     }
 
     .character-name {
       color: yellow;
-      font-size: 1.2rem;
-      font-weight: bold;
+      font-size: 1.4rem;
+      font-weight: 800;
       margin-bottom: 0.3rem;
+      transition: all 0.3s ease;
     }
 
     .character-info-row {
       display: flex;
+      flex-wrap: wrap;
       justify-content: space-between;
       margin: 2px 0;
+      gap: 0.5rem;
       font-size: 0.9rem;
 
       .field-name {
         color: yellow;
       }
       .field-value {
-        color: lightblue;
+        color: white;
       }
+    }
+  }
+
+  /* 🔹 Botão "Mostrar mais" */
+  .show-more {
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 59px;
+
+    button {
+      padding: 0.5rem 1rem;
+      color: #ffe81f;
+      font-weight: 700;
+      border-radius: 0.5rem;
+      text-transform: uppercase;
+      cursor: pointer;
+      background: rgba(17, 17, 17, 0.95); /* mais opaco */
+      box-shadow: 0 0 5px #ffe81f;
+      transition: all 0.3s ease;
+      border: none;
+    }
+
+    button:hover {
+      color: transparent;
+      background: linear-gradient(45deg, #ff1f1f, #1f7fff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      box-shadow: 0 0 15px #ff1f1f, 0 0 30px #084ba2;
+      transform: scale(1.05);
     }
   }
 }
@@ -74,11 +135,13 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s ease;
-  z-index: 1000;
+  /* garantir que o backdrop fique acima de tudo (header etc.) */
+  z-index: 100000 !important;
+  padding: 1rem;
 
   &.open {
     opacity: 1;
@@ -93,15 +156,26 @@
   width: 400px;
   height: 100%;
   background: #1a1a1a;
-  color: yellow;
   padding: 1.5rem;
-  box-shadow: -5px 0 20px rgba(0, 0, 0, 0.7);
   transition: right 0.3s ease;
-  z-index: 1001;
+  /* garantir que o painel fique acima de tudo (header etc.) */
+  z-index: 100001 !important;
   overflow-y: auto;
 
   &.open {
     right: 0;
+  }
+
+  .panel-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    text-align: center;
+    background: linear-gradient(4deg, #ff1f1f, #1f7fff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: block;
   }
 
   .close-btn {
@@ -116,31 +190,66 @@
   }
 
   .panel-cover {
-    width: 100%;
-    height: 250px;
-    object-fit: cover;
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    max-height: 65vh;
+    object-fit: contain;
+    object-position: top center;
     border-radius: 5px;
-    margin-bottom: 1rem;
+    margin: 0 0 1rem 0;
+    background: #000;
+    display: block;
   }
 
-  .panel-title {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-  }
+  .panel-info .character-info-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 4px 0;
+    font-size: 0.95rem;
+    align-items: flex-start;
 
-  .panel-info {
-    .character-info-row {
-      display: flex;
-      justify-content: space-between;
-      margin: 2px 0;
-      font-size: 0.95rem;
+    .field-name {
+      color: yellow;
+      font-weight: 500;
+      margin-right: 0.5rem;
+      white-space: nowrap;
+    }
 
-      .field-name {
-        color: yellow;
+    .field-value {
+      color: white;
+      flex: 1;
+      word-break: break-word;
+
+      /* 🔹 Estilo para listas de filmes no painel lateral */
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
       }
-      .field-value {
-        color: lightblue;
+
+      li {
+        cursor: default; /* nome do filme não é clicável */
+        color: white;
+        transition: color 0.2s ease;
+
+        &:hover {
+          color: #ff1f1f;
+        }
+
+        /* 🔹 Ícone 🎬 */
+        .film-icon {
+          margin-left: 8px;
+          cursor: pointer;
+          font-size: 1rem; /* tamanho maior do ícone */
+          color: #1f7fff;
+          transition: color 0.2s ease, transform 0.2s ease;
+
+          &:hover {
+            color: #ff1f1f;
+            transform: scale(1.2);
+          }
+        }
       }
     }
   }

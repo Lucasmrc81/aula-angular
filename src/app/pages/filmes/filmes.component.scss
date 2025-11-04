@@ -3,7 +3,7 @@
   padding: 2rem;
 
   .loading-text {
-    color: yellow;
+    color: black;
     font-size: 1.5rem;
     text-align: center;
     margin-top: 2rem;
@@ -18,7 +18,7 @@
   }
 
   .film-card {
-    border: 2px solid yellow;
+    border: none;
     border-radius: 10px;
     overflow: hidden;
     width: 250px;
@@ -29,12 +29,14 @@
     &:hover {
       transform: scale(1.05);
       box-shadow: 0 0 15px #ff1f1f, 0 0 30px #084ba2;
+      border: 2px solid transparent;
       border-image: linear-gradient(45deg, #ff1f1f, #1f7fff) 1;
 
       .film-title {
         color: transparent;
         background: linear-gradient(45deg, #ff1f1f, #1f7fff);
         -webkit-background-clip: text;
+        background-clip: text;
         -webkit-text-fill-color: transparent;
       }
     }
@@ -42,25 +44,45 @@
     .film-cover {
       width: 100%;
       height: 330px;
-      object-fit: cover;
+      /* Mostrar a imagem inteira dentro do container sem cortar:
+         - object-fit: contain preserva a proporção e mostra toda a imagem
+         - object-position: center centraliza a imagem (boa para letterboxes)
+         - background fornece uma cor de preenchimento quando houver espaço
+      */
+      object-fit: contain;
+      object-position: center;
+      background: #000; /* ou outra cor neutra */
+      display: block;
     }
 
     .film-info {
       padding: 0.5rem;
 
       .film-title {
-        color: yellow;
-        font-size: 1.2rem;
-        font-weight: bold;
+        color: #ffe81f;
+        font-size: 1.4rem;
+        font-weight: 800;
         margin-bottom: 0.3rem;
+        letter-spacing: 1px;
+        text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
         transition: all 0.3s ease;
       }
 
-      .film-director,
-      .film-date {
-        color: #ffd700;
+      .character-info-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin: 2px 0;
+        gap: 0.5rem;
         font-size: 0.9rem;
-        margin: 0;
+
+        .field-name {
+          color: yellow;
+        }
+
+        .field-value {
+          color: white;
+        }
       }
     }
   }
@@ -72,11 +94,12 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s ease;
-  z-index: 1000;
+  /* garantir que o backdrop fique acima de tudo (header etc.) */
+  z-index: 100000 !important;
 
   &.open {
     opacity: 1;
@@ -95,7 +118,8 @@
   padding: 1.5rem;
   box-shadow: -5px 0 20px rgba(0, 0, 0, 0.7);
   transition: right 0.3s ease;
-  z-index: 1001;
+  /* garantir que o painel fique acima de tudo (header etc.) */
+  z-index: 100001 !important;
   overflow-y: auto;
 
   &.open {
@@ -103,30 +127,71 @@
   }
 
   .close-btn {
-    display: block;
-    text-align: right;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: #ff1f1f; /* vermelho consistente com outras páginas */
     cursor: pointer;
     font-size: 1.5rem;
-    margin-bottom: 1rem;
+    line-height: 1;
   }
 
   .panel-title {
     font-size: 1.5rem;
     font-weight: bold;
     margin-bottom: 0.5rem;
+
+    background: linear-gradient(45deg, #ff1f1f, #1f7fff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 
   .panel-info {
+    display: flex;
     font-size: 1rem;
-    margin-bottom: 0.8rem;
-    line-height: 1.4;
+    margin-bottom: 0.4rem;
+    gap: 10px;
+  }
+
+  .label-diretor {
+    color: yellow;
+  }
+
+  .value-diretor {
+    color: white;
+  }
+
+  .label-lancamento {
+    color: yellow;
+  }
+
+  .value-lancamento {
+    color: white; /* dourado para a data */
+  }
+
+  .label-sinopse {
+    color: yellow; /* laranja para o rótulo "Sinopse" */
+  }
+
+  .value-sinopse {
+    color: #ffffff; /* branco para o texto da sinopse */
   }
 
   .panel-cover {
-    width: 100%;
-    height: 250px;
-    object-fit: cover;
+    /* Remover altura fixa para que o container acompanhe o formato da imagem.
+       Manter limites via max-height/max-width para não estourar o painel. */
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    max-height: 65vh; /* limita para não ultrapassar a altura da janela */
+    object-fit: contain; /* preserva proporção e mostra toda a imagem */
+    object-position: top center; /* alinhado ao topo do painel, melhora leitura do texto abaixo */
     border-radius: 5px;
-    margin-bottom: 1rem;
+    margin: 0 0 1rem 0; /* alinhado ao fluxo, não centralizado verticalmente */
+    background: #000; /* cor de preenchimento quando houver espaço */
+    display: block;
   }
 }

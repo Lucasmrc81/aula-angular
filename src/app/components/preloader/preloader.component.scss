@@ -10,4 +10,15 @@
   align-items: center;
   justify-content: center;
   z-index: 9999;
+
+  // OTIMIZAÇÕES DE PERFORMANCE
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+canvas {
+  // Aceleração por hardware para o canvas
+  will-change: transform;
+  transform: translateZ(0);
 }

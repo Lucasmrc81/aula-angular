@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormsModule,
@@ -8,15 +8,23 @@ import {
   Validators,
 } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { PreloaderComponent } from '../../components/preloader/preloader.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    RouterModule,
+    PreloaderComponent,
+  ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   [x: string]: any;
 
   loginForm: FormGroup;
@@ -24,15 +32,28 @@ export class LoginComponent {
   successMessage = '';
   isRegisterMode = false;
   isUpdatePasswordMode = false;
+  showPreloader = true; // Mostrar preloader inicialmente
+  // Flags para alternar visibilidade das senhas
+  showPassword = false;
+  showConfirmPassword = false;
 
-  isLoading = true;
-
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private authService: AuthService
+  ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
       confirmPassword: [''],
     });
+  }
+
+  ngOnInit() {
+    // Mostrar preloader por 2 segundos, depois mostrar formulário de login
+    setTimeout(() => {
+      this.showPreloader = false;
+    }, 2000);
   }
 
   toggleRegisterMode() {
@@ -45,6 +66,14 @@ export class LoginComponent {
     this.isUpdatePasswordMode = !this.isUpdatePasswordMode;
     this.isRegisterMode = false;
     this.clearMessages();
+  }
+
+  toggleShowPassword(field: 'password' | 'confirm') {
+    if (field === 'password') {
+      this.showPassword = !this.showPassword;
+    } else {
+      this.showConfirmPassword = !this.showConfirmPassword;
+    }
   }
 
   clearMessages() {
@@ -80,10 +109,13 @@ export class LoginComponent {
           this.toggleUpdatePasswordMode();
         }, 2000);
       } else {
-        console.log('Login realizado com sucesso:', { email, password });
-        localStorage.setItem('token', 'fake-token');
-        console.log('Redirecionando para /home');
-        this.router.navigate(['/home']);
+        // Login usando o AuthService
+        if (this.authService.login(email, password)) {
+          console.log('Login realizado com sucesso:', { email, password });
+          this.router.navigate(['/app/home']);
+        } else {
+          this.errorMessage = 'Credenciais inválidas! Verifique email e senha.';
+        }
       }
     } else {
       this.errorMessage = 'Formulário inválido!';

@@ -1,0 +1,51 @@
+<div class="characters-container">
+  <div class="character-grid">
+    <div
+      *ngFor="let e of especies"
+      class="character-card"
+      (click)="openPanel(e)"
+    >
+      <img [src]="e.image" [alt]="e.name" class="character-image" />
+      <h2 class="character-name">{{ e.name }}</h2>
+
+      <div class="character-info">
+        <p class="character-info-row">
+          <span class="field-name">Classificação</span>
+          <span class="field-value">{{ e.classification }}</span>
+        </p>
+        <p class="character-info-row">
+          <span class="field-name">Língua</span>
+          <span class="field-value">{{ e.language }}</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Backdrop e painel lateral para espécies -->
+<div
+  class="side-panel-backdrop"
+  [class.open]="selectedSpecies"
+  (click)="closePanel()"
+></div>
+
+<div class="side-panel" [class.open]="selectedSpecies">
+  <span class="close-btn" (click)="closePanel()">×</span>
+  <ng-container *ngIf="selectedSpecies">
+    <h2 class="panel-title">{{ selectedSpecies.name }}</h2>
+    <img
+      [src]="selectedSpecies.image"
+      class="panel-cover"
+      [alt]="selectedSpecies.name"
+    />
+
+    <p class="panel-info">
+      <span class="label-diretor">Classificação:</span>
+      <span class="value-diretor">{{ selectedSpecies.classification }}</span>
+    </p>
+
+    <p class="panel-info">
+      <span class="label-lancamento">Língua:</span>
+      <span class="value-lancamento">{{ selectedSpecies.language }}</span>
+    </p>
+  </ng-container>
+</div>

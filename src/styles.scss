@@ -92,3 +92,14 @@ app-footer {
 * {
   font-family: "Orbitron";
 }
+
+/* Ensure side-panels and backdrops are above header/footer and any stacking contexts */
+.side-panel-backdrop {
+  z-index: 200000 !important;
+  position: fixed !important;
+}
+
+.side-panel {
+  z-index: 200001 !important;
+  position: fixed !important;
+}

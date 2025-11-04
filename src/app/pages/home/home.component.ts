@@ -23,22 +23,22 @@ export class HomeComponent implements OnInit, OnDestroy {
 A saga Star Wars construiu uma história épica desde 1977 até hoje,
 inspirando filmes, séries, jogos e toda a cultura pop ao redor do mundo.
 Explore o universo e descubra detalhes incríveis!`,
-      image: 'assets/star-wars-history.png',
+      image: 'assets/star-wars-history.webp',
     },
     {
       text: `Star Wars não é apenas um filme; é um fenômeno que transformou o cinema e
 a cultura pop mundial. Desde sua estreia, inspirou gerações de fãs,
 influenciou outros filmes, séries, livros e até jogos eletrônicos.`,
-      image: 'assets/star-wars-poster.png',
+      image: 'assets/star-wars-poster.webp',
     },
     {
       title: 'Galeria Star Wars',
       text: `Algumas imagens icônicas do universo Star Wars!`,
       images: [
-        'assets/jogo.png',
-        'assets/quadrinhos.png',
-        'assets/DarthVader.png',
-        'assets/imagemHistorica.png',
+        'assets/jogo.webp',
+        'assets/quadrinhos.webp',
+        'assets/DarthVader.webp',
+        'assets/imagemHistorica.webp',
       ],
     },
   ];

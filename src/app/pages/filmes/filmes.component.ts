@@ -3,6 +3,9 @@ import { StarwarsService } from '../../services/starwars.service';
 import { CommonModule } from '@angular/common';
 import { LoadingSpinnerComponent } from './../../loading-spinner/loading-spinner.component';
 
+// ⬅️ Importa o service que guarda o filme selecionado
+import { FilmesStateService } from '../../services/filmes-state.service';
+
 @Component({
   selector: 'app-filmes',
   standalone: true,
@@ -66,10 +69,14 @@ export class FilmesComponent implements OnInit {
     },
   ];
 
-  constructor(private swService: StarwarsService) {}
+  // ⬅️ Injetar FilmesStateService
+  constructor(
+    private swService: StarwarsService,
+    private filmesState: FilmesStateService
+  ) {}
 
   ngOnInit(): void {
-    const MIN_LOADING_TIME = 1500; // tempo mínimo do spinner em ms
+    const MIN_LOADING_TIME = 1500;
     const startTime = Date.now();
 
     this.swService.getFilms().subscribe({
@@ -89,6 +96,16 @@ export class FilmesComponent implements OnInit {
             new Date(a.release_date).getTime() -
             new Date(b.release_date).getTime()
         );
+
+        // ⬅️ Recupera título salvo no state ao vir da página Personagens
+        const filmTitle = this.filmesState.getSelectedFilmTitle();
+        if (filmTitle) {
+          const foundFilm = this.films.find((f) => f.title === filmTitle);
+          if (foundFilm) {
+            this.openPanel(foundFilm); // já abre o card/painel lateral
+          }
+          this.filmesState.clearSelectedFilmTitle(); // limpa o estado
+        }
 
         const elapsed = Date.now() - startTime;
         const delay =
@@ -118,6 +135,6 @@ export class FilmesComponent implements OnInit {
   // Fechar painel lateral
   closePanel() {
     this.sidePanelOpen = false;
-    setTimeout(() => (this.selectedFilm = null), 300); // espera a animação terminar
+    setTimeout(() => (this.selectedFilm = null), 300);
   }
 }

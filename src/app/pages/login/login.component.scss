@@ -28,6 +28,36 @@ input {
   font-size: 16px;
 }
 
+.password-field {
+  text-align: left;
+}
+
+.password-wrapper {
+  position: relative;
+}
+
+.password-wrapper input {
+  padding-right: 44px; /* espaço para o botão olho */
+}
+
+.eye-btn {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  padding: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.eye-btn svg {
+  display: block;
+}
+
 .button-group {
   display: flex;
   flex-wrap: wrap;

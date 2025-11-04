@@ -1,0 +1,111 @@
+<app-loading-spinner *ngIf="loading"></app-loading-spinner>
+
+<div *ngIf="!loading">
+  <div *ngIf="erro" class="error-text">{{ erro }}</div>
+
+  <div class="characters-container">
+    <!-- Grid de cards de veículos -->
+    <div class="character-grid">
+      <div
+        *ngFor="let veiculo of veiculosVisiveis"
+        class="character-card"
+        (click)="selectVehicle(veiculo)"
+      >
+        <img
+          [src]="veiculo.image"
+          [alt]="veiculo.name"
+          class="character-image"
+          loading="lazy"
+          (error)="handleImageError($event)"
+        />
+        <h2 class="character-name hover-gradient">{{ veiculo.name }}</h2>
+
+        <div class="character-info">
+          <p class="character-info-row">
+            <span class="field-name">Modelo</span>
+            <span class="field-value">{{ veiculo.model }}</span>
+          </p>
+          <p class="character-info-row">
+            <span class="field-name">Fabricante</span>
+            <span class="field-value">{{ veiculo.manufacturer }}</span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botão "Carregar mais" -->
+    <div class="show-more" *ngIf="temMaisVeiculos">
+      <button (click)="carregarMais()" [disabled]="loadingMais">
+        <span *ngIf="!loadingMais">Carregar mais</span>
+        <span *ngIf="loadingMais">Carregando...</span>
+      </button>
+    </div>
+
+    <!-- Mensagem quando acabar -->
+    <p class="end-message" *ngIf="!temMaisVeiculos">
+      Todos os veículos foram exibidos.
+    </p>
+  </div>
+</div>
+
+<!-- Painel lateral -->
+<div
+  class="side-panel-backdrop"
+  [class.open]="selectedVehicle"
+  (click)="closePanel()"
+></div>
+
+<div class="side-panel" [class.open]="selectedVehicle">
+  <button class="close-btn" (click)="closePanel()">X</button>
+
+  <!-- Imagem de capa -->
+  <img
+    [src]="selectedVehicle?.image"
+    [alt]="selectedVehicle?.name"
+    class="panel-cover"
+    (error)="handleImageError($event)"
+  />
+
+  <!-- Nome do veículo -->
+  <h2 class="panel-title">{{ selectedVehicle?.name }}</h2>
+
+  <div class="panel-info">
+    <p class="character-info-row">
+      <span class="field-name">Modelo</span>
+      <span class="field-value">{{ selectedVehicle?.model }}</span>
+    </p>
+    <p class="character-info-row">
+      <span class="field-name">Fabricante</span>
+      <span class="field-value">{{ selectedVehicle?.manufacturer }}</span>
+    </p>
+    <p class="character-info-row">
+      <span class="field-name">Passageiros</span>
+      <span class="field-value">{{
+        selectedVehicle?.raw?.passengers || "N/A"
+      }}</span>
+    </p>
+
+    <!-- Lista de filmes com ícone 🎬 -->
+    <p class="character-info-row">
+      <span class="field-name">Filmes</span>
+      <span class="field-value">
+        <ng-container
+          *ngIf="selectedVehicle?.filmTitles?.length > 0; else noFilmsPanel"
+        >
+          <ul>
+            <li *ngFor="let filme of selectedVehicle?.filmTitles">
+              {{ filme }}
+              <span
+                class="film-icon"
+                (click)="openFilm(filme)"
+                title="Ver detalhes do filme"
+                >🎬</span
+              >
+            </li>
+          </ul>
+        </ng-container>
+        <ng-template #noFilmsPanel>N/A</ng-template>
+      </span>
+    </p>
+  </div>
+</div>

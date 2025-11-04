@@ -6,8 +6,14 @@
       <img [src]="film.cover" [alt]="film.title" class="film-cover" />
       <div class="film-info">
         <h2 class="film-title">{{ film.title }}</h2>
-        <p class="film-director">Diretor: {{ film.director }}</p>
-        <p class="film-date">Lançamento: {{ film.release_date }}</p>
+        <p class="character-info-row">
+          <span class="field-name">Diretor</span>
+          <span class="field-value">{{ film.director }}</span>
+        </p>
+        <p class="character-info-row">
+          <span class="field-name">Lançamento</span>
+          <span class="field-value">{{ film.release_date }}</span>
+        </p>
       </div>
     </div>
   </div>
@@ -20,19 +26,26 @@
   ></div>
 
   <!-- Painel lateral -->
+  <!-- Painel lateral -->
   <div class="side-panel" [class.open]="selectedFilm">
     <span class="close-btn" (click)="closePanel()">×</span>
     <ng-container *ngIf="selectedFilm">
       <h2 class="panel-title">{{ selectedFilm.title }}</h2>
       <img [src]="selectedFilm.cover" class="panel-cover" />
+
       <p class="panel-info">
-        <strong>Diretor:</strong> {{ selectedFilm.director }}
+        <span class="label-diretor">Diretor:</span>
+        <span class="value-diretor">{{ selectedFilm.director }}</span>
       </p>
+
       <p class="panel-info">
-        <strong>Lançamento:</strong> {{ selectedFilm.release_date }}
+        <span class="label-lancamento">Lançamento:</span>
+        <span class="value-lancamento">{{ selectedFilm.release_date }}</span>
       </p>
+
       <p class="panel-info">
-        <strong>Sinopse:</strong> {{ selectedFilm.synopsis || "N/A" }}
+        <span class="label-sinopse">Sinopse:</span>
+        <span class="value-sinopse">{{ selectedFilm.synopsis || "N/A" }}</span>
       </p>
     </ng-container>
   </div>

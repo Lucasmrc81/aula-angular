@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -11,12 +12,22 @@ import { CommonModule } from '@angular/common';
 })
 export class HeaderComponent {
   public menuOpen = false;
+  public moreOpen = false;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private authService: AuthService) {}
+
+  toggleMore(event: Event) {
+    event.stopPropagation();
+    this.moreOpen = !this.moreOpen;
+  }
 
   logout() {
-    localStorage.removeItem('token');
-    this.router.navigate(['/login']);
+    this.authService.logout();
+    this.router.navigate(['/initial-loading']);
     this.menuOpen = false;
+  }
+  @HostListener('document:click')
+  closeMore() {
+    this.moreOpen = false;
   }
 }

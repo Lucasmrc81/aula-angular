@@ -6,6 +6,9 @@
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <!-- Preconnect to visualguide to reduce DNS / TLS latency when fetching planet images -->
+    <link rel="preconnect" href="https://starwars-visualguide.com" />
+    <link rel="dns-prefetch" href="https://starwars-visualguide.com" />
     <style>
       #preloader {
         position: fixed;

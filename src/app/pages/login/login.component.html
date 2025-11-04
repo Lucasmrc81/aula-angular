@@ -1,5 +1,9 @@
-<div class="login-container mt-20 md:mt-32">
-  <img src="assets/logo.png" alt="Logo Star Wars" class="logo" />
+<!-- Preloader aparece primeiro -->
+<app-preloader *ngIf="showPreloader"></app-preloader>
+
+<!-- Formulário de login aparece depois -->
+<div class="login-container mt-20 md:mt-32" *ngIf="!showPreloader">
+  <img src="assets/logo.webp" alt="Logo Star Wars" class="logo" />
 
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <div>
@@ -15,9 +19,54 @@
       </div>
     </div>
 
-    <div>
+    <div class="password-field">
       <label for="password">Senha</label>
-      <input id="password" type="password" formControlName="password" />
+      <div class="password-wrapper">
+        <input
+          id="password"
+          [type]="showPassword ? 'text' : 'password'"
+          formControlName="password"
+        />
+        <button
+          type="button"
+          class="eye-btn"
+          aria-label="Mostrar ou ocultar senha"
+          (click)="toggleShowPassword('password')"
+        >
+          <svg
+            *ngIf="!showPassword"
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#ffe81f"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+            <circle cx="12" cy="12" r="3" />
+          </svg>
+          <svg
+            *ngIf="showPassword"
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#ffe81f"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M17.94 17.94A10 10 0 0 1 12 20c-7 0-11-8-11-8a20.3 20.3 0 0 1 5.06-6.06"
+            />
+            <path d="M1 1l22 22" />
+          </svg>
+        </button>
+      </div>
       <div
         class="error"
         *ngIf="
@@ -31,11 +80,52 @@
 
     <div *ngIf="isRegisterMode || isUpdatePasswordMode">
       <label for="confirmPassword">Confirmar Senha</label>
-      <input
-        id="confirmPassword"
-        type="password"
-        formControlName="confirmPassword"
-      />
+      <div class="password-wrapper">
+        <input
+          id="confirmPassword"
+          [type]="showConfirmPassword ? 'text' : 'password'"
+          formControlName="confirmPassword"
+        />
+        <button
+          type="button"
+          class="eye-btn"
+          aria-label="Mostrar ou ocultar confirmação de senha"
+          (click)="toggleShowPassword('confirm')"
+        >
+          <svg
+            *ngIf="!showConfirmPassword"
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#ffe81f"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+            <circle cx="12" cy="12" r="3" />
+          </svg>
+          <svg
+            *ngIf="showConfirmPassword"
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#ffe81f"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M17.94 17.94A10 10 0 0 1 12 20c-7 0-11-8-11-8a20.3 20.3 0 0 1 5.06-6.06"
+            />
+            <path d="M1 1l22 22" />
+          </svg>
+        </button>
+      </div>
       <div
         class="error"
         *ngIf="

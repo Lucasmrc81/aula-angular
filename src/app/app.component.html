@@ -1,6 +1,2 @@
 <!-- app.component.html -->
-<app-preloader *ngIf="preloaderVisible"></app-preloader>
-
-<div class="main-content" [class.hidden]="preloaderVisible">
-  <router-outlet></router-outlet>
-</div>
+<router-outlet></router-outlet>

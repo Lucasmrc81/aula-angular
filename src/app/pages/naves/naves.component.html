@@ -1,0 +1,110 @@
+<div class="characters-container">
+  <app-loading-spinner *ngIf="loading"></app-loading-spinner>
+
+  <div *ngIf="!loading">
+    <div class="character-grid">
+      <div
+        *ngFor="let s of shipsVisiveis"
+        class="character-card"
+        (click)="openPanel(s)"
+      >
+        <img [src]="s.image" [alt]="s.name" class="character-image" />
+        <h2 class="character-name">{{ s.name }}</h2>
+
+        <div class="character-info">
+          <p class="character-info-row">
+            <span class="field-name">Modelo</span>
+            <span class="field-value">{{ s.model }}</span>
+          </p>
+          <p class="character-info-row">
+            <span class="field-name">Tamanho</span>
+            <span class="field-value">{{ s.length }}m</span>
+          </p>
+          <p class="character-info-row">
+            <span class="field-name">Tripulação</span>
+            <span class="field-value">{{ s.crew }}</span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botão "Carregar mais" -->
+    <div class="show-more" *ngIf="temMaisPersonagens">
+      <button (click)="carregarMais()" [disabled]="loadingMais">
+        <span *ngIf="!loadingMais">Carregar mais</span>
+        <span *ngIf="loadingMais">Carregando...</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Backdrop e painel lateral para naves -->
+<div
+  class="side-panel-backdrop"
+  [class.open]="selectedShip"
+  (click)="closePanel()"
+></div>
+
+<div class="side-panel" [class.open]="selectedShip">
+  <span class="close-btn" (click)="closePanel()">×</span>
+  <ng-container *ngIf="selectedShip">
+    <h2 class="panel-title">{{ selectedShip.name }}</h2>
+    <img
+      [src]="selectedShip.image"
+      class="panel-cover"
+      [alt]="selectedShip.name"
+    />
+
+    <p class="panel-info">
+      <span class="label-diretor">Modelo:</span>
+      <span class="value-diretor">{{ selectedShip.model }}</span>
+    </p>
+
+    <p class="panel-info">
+      <span class="label-lancamento">Fabricante:</span>
+      <span class="value-lancamento">{{ selectedShip.manufacturer }}</span>
+    </p>
+
+    <p class="panel-info">
+      <span class="label-diretor">Tamanho:</span>
+      <span class="value-diretor">{{ selectedShip.length }}m</span>
+    </p>
+
+    <p class="panel-info">
+      <span class="label-lancamento">Velocidade Máx:</span>
+      <span class="value-lancamento"
+        >{{ selectedShip.max_atmosphering_speed }} km/h</span
+      >
+    </p>
+
+    <p class="panel-info">
+      <span class="label-diretor">Tripulação:</span>
+      <span class="value-diretor">{{ selectedShip.crew }}</span>
+    </p>
+
+    <p class="panel-info">
+      <span class="label-lancamento">Passageiros:</span>
+      <span class="value-lancamento">{{ selectedShip.passengers }}</span>
+    </p>
+
+    <p class="panel-info">
+      <span class="label-diretor">Capacidade de Carga:</span>
+      <span class="value-diretor">{{ selectedShip.cargo_capacity }} kg</span>
+    </p>
+
+    <p class="panel-info">
+      <span class="label-lancamento">Consumíveis:</span>
+      <span class="value-lancamento">{{ selectedShip.consumables }}</span>
+    </p>
+
+    <p class="panel-info">
+      <span class="label-diretor">Classe Hyperdrive:</span>
+      <span class="value-diretor">{{ selectedShip.hyperdrive_rating }}</span>
+    </p>
+
+    <p class="panel-info">
+      <span class="label-lancamento">Custo em Créditos:</span>
+      <span class="value-lancamento">{{ selectedShip.cost_in_credits }}</span>
+    </p>
+  </ng-container>
+</div>
